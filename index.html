@@ -5,82 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Osmanlı Pro Asistan</title>
     <style>
-        :root { --gold: #d4af37; --red: #c0392b; --bg: #0d0d0d; --card: rgba(20, 20, 20, 0.95); --blue: #2980b9; --purple: #8e44ad; }
-        
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background: var(--bg); 
-            color: #fff; 
-            margin: 0; 
-            padding: 0; 
-            transition: background 0.8s ease-in-out;
-            background-attachment: fixed;
-            background-position: center;
-            background-size: cover;
-            overflow-x: hidden;
-        }
-
-        #bg-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(12px);
-            z-index: 0;
-            display: none;
-        }
-
-        .screen { display: none; min-height: 100vh; padding: 20px; box-sizing: border-box; flex-direction: column; position: relative; z-index: 1; }
+        :root { --gold: #d4af37; --red: #c0392b; --bg: #0d0d0d; --card: #1a1a1a; --blue: #2980b9; --purple: #8e44ad; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 0; }
+        .screen { display: none; min-height: 100vh; padding: 15px; box-sizing: border-box; flex-direction: column; }
         .active { display: flex; }
-
-        /* BANNER BOYUTUNU DEV YAPAN KISIM */
-        .banner-list { overflow-y: auto; flex: 1; padding: 10px; }
+        
+        /* Banner Listesi */
+        .banner-list { overflow-y: auto; flex: 1; border: 1px solid var(--gold); border-radius: 10px; background: #000; }
         .banner-item { 
-            height: 300px; /* Yüksekliği 300px yaparak şerit görüntüsünü yok ettik */
-            width: 100%;
-            border-radius: 20px;
-            margin-bottom: 30px;
+            height: 90px; 
+            border-bottom: 2px solid #222; 
             display: flex; 
-            align-items: flex-end; 
-            padding: 30px; 
+            align-items: center; 
+            padding: 0 20px; 
             background-size: cover; 
-            background-position: center center; 
-            background-repeat: no-repeat;
-            font-size: 32px; /* Yazıyı daha görkemli yaptık */
+            background-position: center; 
+            font-size: 20px; 
             font-weight: bold; 
-            text-shadow: 4px 4px 12px #000;
-            border: 3px solid #333;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            text-shadow: 2px 2px 10px #000;
             cursor: pointer;
-            box-sizing: border-box;
-            background-color: #1a1a1a;
         }
-        
-        .banner-item:hover { border-color: var(--gold); transform: translateY(-8px); }
-        .banner-item:active { transform: scale(0.96); }
 
-        .variant-tag { font-size: 14px; color: var(--gold); border: 2px solid var(--gold); padding: 4px 10px; margin-left: 20px; border-radius: 6px; background: rgba(0,0,0,0.85); margin-bottom: 8px; letter-spacing: 1px;}
-
-        h1 { font-size: 30px; color: var(--gold); text-align: center; margin: 20px 0 30px 0; text-transform: uppercase; letter-spacing: 3px; font-weight: 900; }
-        
-        /* Spinner ve Buton Tasarımları */
-        .spinner-box { background: var(--card); padding: 25px; border-radius: 20px; margin-bottom: 20px; border: 1px solid #444; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        .spinner-row { display: flex; align-items: center; justify-content: space-between; margin: 15px 0; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; }
-        .spin-btns { display: flex; align-items: center; gap: 15px; }
-        .spin-btn { width: 60px; height: 60px; background: #222; border: 2px solid #555; color: white; border-radius: 15px; font-size: 30px; cursor: pointer; }
-        .quick-btn { width: 60px; height: 60px; background: var(--gold); color: black; border: none; border-radius: 15px; font-weight: 900; font-size: 22px; cursor: pointer; }
-        .val { width: 50px; text-align: center; font-size: 30px; font-weight: bold; color: var(--gold); }
-
-        .btn-large { width: 100%; padding: 28px; border-radius: 20px; border: none; font-weight: 900; font-size: 24px; margin-bottom: 20px; color: white; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+        /* Butonlar */
+        h1 { font-size: 20px; color: var(--gold); text-align: center; margin-bottom: 10px; text-transform: uppercase; }
+        .btn-large { width: 100%; padding: 20px; border-radius: 12px; border: none; font-weight: bold; font-size: 18px; margin-bottom: 10px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; }
         .btn-gold { background: var(--gold); color: black; }
         .btn-red { background: var(--red); }
+        .btn-blue { background: var(--blue); }
         
-        .back-link { color: #fff; text-decoration: none; font-size: 20px; margin-bottom: 25px; display: inline-block; background: rgba(255,255,255,0.2); padding: 12px 30px; border-radius: 40px; font-weight: bold; }
+        /* Dashboard / Spinnerlar */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 10px; }
+        .spinner-row { display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; padding: 12px; border-radius: 10px; border: 1px solid #333; }
+        .spin-btns { display: flex; align-items: center; gap: 8px; }
+        .spin-btn { width: 45px; height: 45px; background: #444; color: white; border: none; border-radius: 8px; font-size: 22px; font-weight: bold; }
+        .quick-btn { width: 45px; height: 45px; background: var(--gold); color: black; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        .val { width: 30px; text-align: center; font-size: 22px; font-weight: bold; color: var(--gold); }
+        .res-label { font-size: 14px; font-weight: bold; }
+
+        /* Reçete Ekranı */
+        .macro-card { background: #111; border-left: 5px solid var(--gold); padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .nuance { color: #2ecc71; font-weight: bold; font-size: 14px; border-top: 1px solid #333; margin-top: 10px; padding-top: 10px; }
+        .variant-tag { font-size: 10px; color: var(--gold); border: 1px solid var(--gold); padding: 2px 5px; margin-left: 10px; border-radius: 3px; background: rgba(0,0,0,0.5); }
+        .back-link { color: #888; text-decoration: none; font-size: 16px; margin-bottom: 10px; display: inline-block; font-weight: bold; }
     </style>
 </head>
 <body>
-
-    <div id="bg-overlay"></div>
 
     <div id="screen1" class="screen active">
         <h1>RAKİP SEÇ</h1>
@@ -88,81 +57,167 @@
     </div>
 
     <div id="screen2" class="screen">
-        <a href="#" class="back-link" onclick="resetApp()">← DEĞİŞTİR</a>
-        <h1>1 - 1 - 3 - 1</h1>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div class="spinner-box">💰<br><span>1</span><br><small>ALTIN</small></div>
-            <div class="spinner-box">🪨<br><span>1</span><br><small>TAŞ</small></div>
-            <div class="spinner-box">🪵<br><span>3</span><br><small>ODUN</small></div>
-            <div class="spinner-box">🍖<br><span>1</span><br><small>YEMEK</small></div>
+        <a href="javascript:void(0)" class="back-link" onclick="showScreen(1)">← DEĞİŞTİR</a>
+        <h1 id="civTitle">STOK PLAN</h1>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="spinner-row" style="flex-direction:column; align-items:center;"><span>💰 1</span><small>ALTIN</small></div>
+            <div class="spinner-row" style="flex-direction:column; align-items:center;"><span>🪨 1</span><small>TAŞ</small></div>
+            <div class="spinner-row" style="flex-direction:column; align-items:center;"><span>🪵 3</span><small>ODUN</small></div>
+            <div class="spinner-row" style="flex-direction:column; align-items:center;"><span>🍖 1</span><small>YEMEK</small></div>
         </div>
+        <h2 style="text-align:center; color:var(--gold); margin: 20px 0;">1 - 1 - 3 - 1</h2>
         <button class="btn-large btn-gold" style="margin-top:auto" onclick="showScreen(3)">SCOUT BAŞLADI</button>
     </div>
 
     <div id="screen3" class="screen">
-        <a href="#" class="back-link" onclick="showScreen(2)">← GERİ</a>
+        <a href="javascript:void(0)" class="back-link" onclick="showScreen(2)">← GERİ</a>
         <h1>GÖZCÜ PANELİ</h1>
-        <div id="spinners"></div>
-        <button class="btn-large btn-gold" style="margin-top:auto" onclick="showScreen(1)">ANALİZ ET</button>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+            <button class="btn-red" style="height: 80px;" onclick="instantAction('RUSH_BARRACKS')">🏚️ KIŞLA</button>
+            <button class="btn-red" style="height: 80px;" onclick="instantAction('RUSH_DOCK')">⚓ LİMAN</button>
+        </div>
+
+        <div class="dashboard-grid" id="spinnerArea"></div>
+
+        <button class="btn-large btn-gold" style="margin-top:auto" onclick="analyze()">ANALİZ ET</button>
+    </div>
+
+    <div id="screen4" class="screen">
+        <a href="javascript:void(0)" class="back-link" onclick="showScreen(3)">← GERİ</a>
+        <h1 id="diagTitle">TEŞHİS</h1>
+        <div id="stratChoices"></div>
+        <div class="macro-card" id="macroBox" style="display:none;">
+            <h3>📋 MAKRO REÇETESİ</h3>
+            <p id="mRally"></p>
+            <p id="mTarget"></p>
+            <p id="mNuance" class="nuance"></p>
+            <p style="color:var(--gold); font-size: 12px; margin-top:10px;">⚠️ 🪨 1 İŞÇİ TAŞTA KALSIN!</p>
+        </div>
+        <div style="margin-top:auto">
+            <button class="btn-large btn-blue" onclick="showLandmarks(2)">LANDMARK SEÇ (C2)</button>
+            <button class="btn-large btn-blue" style="background:var(--purple)" onclick="showLandmarks(3)">LANDMARK SEÇ (C3)</button>
+        </div>
+    </div>
+
+    <div id="screen5" class="screen">
+        <a href="javascript:void(0)" class="back-link" onclick="showScreen(4)">← GERİ</a>
+        <h1 id="lmHeader">BİNA SEÇ</h1>
+        <div id="lmGrid" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;"></div>
     </div>
 
 <script>
-    // FOTOĞRAFLARINLA (Screenshot 4) %100 UYUMLU LİSTE
     const civList = [
-        {id: "abbasid", name: "Abbasid Dynasty"}, 
-        {id: "ayyubid", name: "Ayyubids", variant: true},
-        {id: "byzantine", name: "Byzantines"}, 
-        {id: "macedoniandynasty", name: "Macedonian Dynasty", variant: true},
-        {id: "chinese", name: "Chinese"}, 
-        {id: "zhuxislegacy", name: "Zhu Xi's Legacy", variant: true},
-        {id: "delhi", name: "Delhi Sultanate"}, 
-        {id: "tughlaqdynasty", name: "Tughlaq Dynasty", variant: true},
-        {id: "english", name: "English"}, 
-        {id: "houseoflancaster", name: "House of Lancaster", variant: true},
-        {id: "french", name: "French"}, 
-        {id: "jeannedarc", name: "Jeanne d'Arc", variant: true},
-        {id: "holyromanempire", name: "Holy Roman Empire"}, 
-        {id: "orderofthedragon", name: "Order of the Dragon", variant: true},
-        {id: "knightstemplar", name: "Knights Templar", variant: true}, 
-        {id: "japanese", name: "Japanese"},
-        {id: "sengokudaimyo", name: "Sengoku Daimyo", variant: true}, 
-        {id: "malians", name: "Malians"},
-        {id: "mongols", name: "Mongols"}, 
-        {id: "goldenhorde", name: "Golden Horde", variant: true},
-        {id: "ottomans", name: "Ottomans"}, 
-        {id: "rus", name: "Rus"}
+        {id: "abbasid", name: "Abbasid Dynasty"}, {id: "ayyubid", name: "Ayyubids", variant: true},
+        {id: "byzantine", name: "Byzantines"}, {id: "macedoniandynasty", name: "Macedonian", variant: true},
+        {id: "chinese", name: "Chinese"}, {id: "zhuxislegacy", name: "Zhu Xi's Legacy", variant: true},
+        {id: "delhi", name: "Delhi Sultanate"}, {id: "tughlaqdynasty", name: "Tughlaq Dynasty", variant: true},
+        {id: "english", name: "English"}, {id: "houseoflancaster", name: "Lancaster", variant: true},
+        {id: "french", name: "French"}, {id: "jeannedarc", name: "Jeanne d'Arc", variant: true},
+        {id: "holyromanempire", name: "HRE"}, {id: "orderofthedragon", name: "Order of Dragon", variant: true},
+        {id: "knightstemplar", name: "Knights Templar", variant: true}, {id: "japanese", name: "Japanese"},
+        {id: "sengokudaimyo", name: "Sengoku Daimyo", variant: true}, {id: "malians", name: "Malians"},
+        {id: "mongols", name: "Mongols"}, {id: "goldenhorde", name: "Golden Horde", variant: true},
+        {id: "ottomans", name: "Ottomans"}, {id: "rus", name: "Rus"}
     ];
 
+    // ÖNEMLİ: Default ve Hızlı Buton Değerleri
+    const resourceConfig = {
+        food:  { val: 4, quick: 7,  label: "🍖 YEMEK" },
+        gold:  { val: 3, quick: 8,  label: "💰 ALTIN" },
+        stone: { val: 1, quick: 4,  label: "🪨 TAŞ" },
+        wood:  { val: 3, quick: 10, label: "🪵 ODUN" }
+    };
+
+    let selectedCiv = "";
+
+    // Banner Listesini Oluştur
     const bannerContainer = document.getElementById('bannerContainer');
-    
     civList.forEach(civ => {
         const div = document.createElement('div');
         div.className = 'banner-item';
-        
-        // Dosya isimleri Screenshot 4 ile eşleşiyor
-        const imgPath = `banners/${civ.id}.png`; 
-        
-        div.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.65)), url('${imgPath}')`;
-        div.innerHTML = `<div>${civ.name.toUpperCase()} ${civ.variant ? '<span class="variant-tag">VARYANT</span>' : ''}</div>`;
-        
-        div.onclick = () => { 
-            document.body.style.backgroundImage = `url('${imgPath}')`;
-            document.getElementById('bg-overlay').style.display = 'block';
-            showScreen(2); 
-        };
+        div.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('banner/${civ.id}.png')`;
+        div.innerHTML = `${civ.name.toUpperCase()} ${civ.variant ? '<span class="variant-tag">VARYANT</span>' : ''}`;
+        div.onclick = () => { selectedCiv = civ.id; document.getElementById('civTitle').innerText = civ.name.toUpperCase(); showScreen(2); };
         bannerContainer.appendChild(div);
+    });
+
+    // Spinnerları Oluştur (Gözcü Paneli)
+    const spinnerArea = document.getElementById('spinnerArea');
+    Object.keys(resourceConfig).forEach(key => {
+        const conf = resourceConfig[key];
+        const row = document.createElement('div');
+        row.className = 'spinner-row';
+        row.innerHTML = `
+            <span class="res-label">${conf.label}</span>
+            <div class="spin-btns">
+                <button class="spin-btn" onclick="updateVal('${key}', -1)">-</button>
+                <span class="val" id="v-${key}">${conf.val}</span>
+                <button class="spin-btn" onclick="updateVal('${key}', 1)">+</button>
+                <button class="quick-btn" onclick="setVal('${key}', ${conf.quick})">${conf.quick}</button>
+            </div>`;
+        spinnerArea.appendChild(row);
     });
 
     function showScreen(n) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        const target = document.getElementById('screen' + n);
-        if(target) target.classList.add('active');
+        document.getElementById('screen' + n).classList.add('active');
+        window.scrollTo(0,0);
     }
 
-    function resetApp() {
-        document.body.style.backgroundImage = "none";
-        document.getElementById('bg-overlay').style.display = 'none';
-        showScreen(1);
+    function updateVal(k, d) { resourceConfig[k].val = Math.max(0, resourceConfig[k].val + d); document.getElementById('v-'+k).innerText = resourceConfig[k].val; }
+    function setVal(k, v) { resourceConfig[k].val = v; document.getElementById('v-'+k).innerText = v; }
+
+    function analyze() {
+        let title = "STANDART FEODAL";
+        let opts = ["SİPAHİ HARASS", "FAST CASTLE YARIŞI"];
+        
+        if (resourceConfig.stone.val >= 4) { title = "2TC EKONOMİ"; opts = ["SİPAHİ BASKISI", "BOOM'U CEZALANDIR"]; }
+        else if (resourceConfig.gold.val >= 7) { title = "FAST CASTLE (C3)"; opts = ["ALTIN HATTINI KES", "AGRESİF OKÇU"]; }
+        else if (resourceConfig.wood.val >= 8) { title = "FEUDAL ALL-IN"; opts = ["SAVUNMA KULESİ", "SİPAHİ COUNTER"]; }
+
+        renderDiag(title, opts);
+    }
+
+    function instantAction(type) {
+        if (type === 'RUSH_BARRACKS') renderDiag("DARK AGE RUSH", ["ACİL KULE DİK", "KENDİ KIŞLANI DİK"]);
+        else renderDiag("SU OYUNU", ["LİMANI TACİZ ET", "KARA BASKISI"]);
+    }
+
+    function renderDiag(title, options) {
+        document.getElementById('diagTitle').innerText = title;
+        const box = document.getElementById('stratChoices');
+        box.innerHTML = "";
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = "btn-large btn-red";
+            btn.innerText = opt;
+            btn.onclick = () => showMacro(opt);
+            box.appendChild(btn);
+        });
+        showScreen(4);
+    }
+
+    function showMacro(choice) {
+        document.getElementById('macroBox').style.display = "block";
+        document.getElementById('mRally').innerHTML = "📍 <b>RALLY POINT:</b> ODUN";
+        document.getElementById('mTarget').innerHTML = "🎯 <b>HEDEF:</b> 8 Yemek - 8 Odun - 2 Altın";
+        document.getElementById('mNuance').innerHTML = "💡 <b>NOT:</b> Rakibi sürekli hareket etmeye zorla, kaynaklarını darlayarak zaman çal!";
+    }
+
+    function showLandmarks(age) {
+        document.getElementById('lmHeader').innerText = `ÇAĞ ${age} LANDMARK`;
+        const grid = document.getElementById('lmGrid');
+        grid.innerHTML = "";
+        ["LANDMARK SEÇENEK A", "LANDMARK SEÇENEK B"].forEach(lm => {
+            const b = document.createElement('div');
+            b.className = "spinner-row";
+            b.style.justifyContent = "center";
+            b.innerHTML = `<span>${lm}</span>`;
+            b.onclick = () => { alert("Strateji Güncellendi!"); showScreen(4); };
+            grid.appendChild(b);
+        });
+        showScreen(5);
     }
 </script>
 </body>
